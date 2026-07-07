@@ -23,7 +23,7 @@ document.getElementById("button").addEventListener("click", () => {
                 questionId:1,
                 order:order
             })
-        });
+        })
     .then(response => response.json())
     .then(data => {
         alert("回答を記録しました");
