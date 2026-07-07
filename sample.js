@@ -15,7 +15,7 @@ document.getElementById("button").addEventListener("click", () => {
 
     console.log(order);
 
-    fetch("https://script.google.com/a/macros/edu.teu.ac.jp/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec", 
+    fetch("https://script.google.com/macros/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec", 
         {
             method: "POST",
             body: JSON.stringify({
