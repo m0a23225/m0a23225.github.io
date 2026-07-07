@@ -18,6 +18,18 @@ document.getElementById("button").addEventListener("click", () => {
     fetch("https://script.google.com/a/macros/edu.teu.ac.jp/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec", 
         {
             method: "POST",
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                userID:"001",
+                qusetionID:1,
+                order:order
+            })
         });
+    .then(response => response.json())
+    .then(data => {
+        alert("回答を記録しました");
+    })
+    .catch(error => {
+        alert("送信に失敗しました");
+        console.error(error);
+    })
 });
