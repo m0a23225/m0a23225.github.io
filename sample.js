@@ -19,8 +19,8 @@ document.getElementById("button").addEventListener("click", () => {
         {
             method: "POST",
             body: JSON.stringify({
-                userID:"001",
-                qusetionID:1,
+                userId:"001",
+                questionId:1,
                 order:order
             })
         });
