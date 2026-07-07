@@ -4,6 +4,9 @@ body{
     margin:auto;
 }
 
+.centering_parent {
+    text-align:  center;
+}
 h2{
     text-align:center;
 }
