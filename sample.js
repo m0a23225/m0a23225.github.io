@@ -15,9 +15,9 @@ document.getElementById("button").addEventListener("click", () => {
 
     console.log(order);
 
-});
-
-fetch("https://script.google.com/u/0/home/projects/1Fpb27bUS-ZC0sklwW2JU_CDCHQ8XEpnESp32smMcdzVN-mSHeW11qo-T/edit", {
-    method: "POST",
-    body: JSON.stringify(data)
+    fetch("https://script.google.com/u/0/home/projects/1Fpb27bUS-ZC0sklwW2JU_CDCHQ8XEpnESp32smMcdzVN-mSHeW11qo-T/edit", 
+        {
+            method: "POST",
+            body: JSON.stringify(data)
+        });
 });
