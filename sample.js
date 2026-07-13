@@ -64,9 +64,6 @@ sentences.forEach(sentence => {
 
 });
 
-const shownOrder = [...document.querySelectorAll("#list li")]
-    .map(item => item.textContent);
-
 // 並び替え機能を追加
 new Sortable(list, {
     animation: 150
@@ -92,7 +89,6 @@ document.getElementById("button").addEventListener("click", () => {
             body: JSON.stringify({
                 userId:userId,
                 questionId:1,
-                shownOrder: shownOrder,
                 order:order,
                 elapsedTime: elapsedTime
             })
