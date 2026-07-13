@@ -1,6 +1,9 @@
 // ページを開いた時刻を記録
 const startTime = Date.now();
 
+const shownOrder = [...document.querySelectorAll("#list li")]
+    .map(item => item.textContent);
+
 
 // 回答者IDを取得（なければ新しく作る）
 let userId = localStorage.getItem("userId");
