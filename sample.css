@@ -9,6 +9,7 @@ body{
 }
 h2{
     text-align:center;
+    width: 95%;
 }
 
 #list{
@@ -24,7 +25,6 @@ h2{
     background: #f0f0f0;
     border: 3px solid #ccc;
     cursor: move;
-    cursor:move;
 }
 
 button{
