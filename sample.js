@@ -24,6 +24,10 @@ const sentences = [
 // ページを開いた時刻を記録
 const startTime = Date.now();
 
+// 送信ボタン関連
+const button = document.getElementById("button");
+const status = document.getElementById("status");
+
 // 回答者IDを取得（なければ新しく作る）
 let userId = localStorage.getItem("userId");
 
