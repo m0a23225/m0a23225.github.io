@@ -13,11 +13,12 @@ body{
 
 h1{
     text-align:center;
+    color: #2f4f4f;
 }
 
 h2{
     text-align:center;
-    color: #2c3e50;
+    color: #191970;
 }
 
 #list{
