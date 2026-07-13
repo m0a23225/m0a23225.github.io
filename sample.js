@@ -118,11 +118,13 @@ document.getElementById("button").addEventListener("click", () => {
             })
         })
     .then(response => response.json())
+    
     .then(data => {
-        
         status.textContent = "ご回答ありがとうございました。";
-        button.style.display = "none";
+        button.textContent = "送信済み";
+        button.disabled = true;
     })
+    
     .catch(error => {
         status.textContent = "送信に失敗しました。もう一度お試しください。";
         button.disabled = false;
