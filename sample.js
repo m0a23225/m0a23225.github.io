@@ -59,6 +59,7 @@ document.getElementById("button").addEventListener("click", () => {
             body: JSON.stringify({
                 userId:"userId",
                 questionId:1,
+                shownOrder: shownOrder,
                 order:order,
                 elapsedTime: elapsedTime
             })
