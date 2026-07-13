@@ -1,3 +1,7 @@
+// ページを開いた時刻を記録
+const startTime = Date.now();
+
+
 // 回答者IDを取得（なければ新しく作る）
 let userId = localStorage.getItem("userId");
 
@@ -18,6 +22,7 @@ new Sortable(list, {
 // ボタンが押されたら現在の順番を表示
 document.getElementById("button").addEventListener("click", () => {
 
+    const elapsedTime = Date.now() - startTime;
     const order = [...document.querySelectorAll("#list li")]
         .map(item => item.textContent);
 
@@ -29,9 +34,10 @@ document.getElementById("button").addEventListener("click", () => {
         {
             method: "POST",
             body: JSON.stringify({
-                userId:"001",
+                userId:"userId",
                 questionId:1,
-                order:order
+                order:order,
+                elapsedTime: elapsedTime
             })
         })
     .then(response => response.json())
