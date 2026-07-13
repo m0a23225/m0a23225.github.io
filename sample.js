@@ -71,17 +71,28 @@ new Sortable(list, {
 
 // ボタンが押されたら現在の順番を表示
 document.getElementById("button").addEventListener("click", () => {
-
-    button.disabled = true;
-    status.textContent = "送信中…";
-
+    
     const elapsedTime = Date.now() - startTime;
     const order = [...document.querySelectorAll("#list li")]
         .map(item => item.textContent);
-
-    alert(order.join("\n"));
-
+    
     console.log(order);
+    
+    const confirmed = confirm(
+        "こちらは確認画面です。\n" +
+        "まだ送信は完了していません！\n\n" +
+        "OK：送信する\n" +
+        "キャンセル：並び替えを続ける\n\n" +
+        "【現在の並び順】\n\n" +
+        order.join("\n")
+    );
+    
+    if (!confirmed) {
+        return;
+    }
+    
+    button.disabled = true;
+    status.textContent = "送信中…";
 
     fetch("https://script.google.com/macros/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec", 
         {
