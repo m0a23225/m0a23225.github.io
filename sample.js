@@ -81,7 +81,7 @@ document.getElementById("button").addEventListener("click", () => {
     const confirmed = confirm(
         "こちらは確認画面です。\n" +
         "まだ送信は完了していません！\n\n" +
-        "【現在の並び順】\n\n" +
+        "【現在の並び順】\n" +
         order.join("\n")
     );
     
