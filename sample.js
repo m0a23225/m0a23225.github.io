@@ -38,6 +38,32 @@ if (!userId) {
 
 console.log(userId);
 
+function shuffle(array) {
+
+    for (let i = array.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+}
+
+const list = document.getElementById("list");
+
+shuffle(sentences);
+
+sentences.forEach(sentence => {
+
+    const li = document.createElement("li");
+
+    li.textContent = sentence;
+
+    list.appendChild(li);
+
+});
+
 function shuffleList() {
 
     const list = document.getElementById("list");
