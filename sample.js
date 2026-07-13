@@ -12,6 +12,26 @@ if (!userId) {
 
 console.log(userId);
 
+function shuffleList() {
+
+    const list = document.getElementById("list");
+
+    // li要素を配列にする
+    const items = Array.from(list.children);
+
+    // Fisher-Yatesアルゴリズム
+    for (let i = items.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [items[i], items[j]] = [items[j], items[i]];
+    }
+
+    // 並び直す
+    items.forEach(item => list.appendChild(item));
+
+}
+
 // 並び替え機能を追加
 const list = document.getElementById("list");
 
