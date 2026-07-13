@@ -1,3 +1,13 @@
+// 回答者IDを取得（なければ新しく作る）
+let userId = localStorage.getItem("userId");
+
+if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem("userId", userId);
+}
+
+console.log(userId);
+
 // 並び替え機能を追加
 const list = document.getElementById("list");
 
