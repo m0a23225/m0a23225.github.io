@@ -95,6 +95,9 @@ new Sortable(list, {
 // ボタンが押されたら現在の順番を表示
 document.getElementById("button").addEventListener("click", () => {
 
+    button.disabled = true;
+    status.textContent = "送信中…";
+
     const elapsedTime = Date.now() - startTime;
     const order = [...document.querySelectorAll("#list li")]
         .map(item => item.textContent);
