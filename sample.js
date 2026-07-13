@@ -119,10 +119,13 @@ document.getElementById("button").addEventListener("click", () => {
         })
     .then(response => response.json())
     .then(data => {
-        alert("回答を記録しました");
+        
+        status.textContent = "ご回答ありがとうございました。";
+        button.style.display = "none";
     })
     .catch(error => {
-        alert("送信に失敗しました");
+        status.textContent = "送信に失敗しました。もう一度お試しください。";
+        button.disabled = false;
         console.error(error);
     })
 });
