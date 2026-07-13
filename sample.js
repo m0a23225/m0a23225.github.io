@@ -24,10 +24,6 @@ const sentences = [
 // ページを開いた時刻を記録
 const startTime = Date.now();
 
-const shownOrder = [...document.querySelectorAll("#list li")]
-    .map(item => item.textContent);
-
-
 // 回答者IDを取得（なければ新しく作る）
 let userId = localStorage.getItem("userId");
 
@@ -64,6 +60,9 @@ sentences.forEach(sentence => {
 
 });
 
+const shownOrder = [...document.querySelectorAll("#list li")]
+    .map(item => item.textContent);
+
 function shuffleList() {
 
     const list = document.getElementById("list");
@@ -85,8 +84,6 @@ function shuffleList() {
 }
 
 // 並び替え機能を追加
-const list = document.getElementById("list");
-
 new Sortable(list, {
     animation: 150
 });
@@ -106,7 +103,7 @@ document.getElementById("button").addEventListener("click", () => {
         {
             method: "POST",
             body: JSON.stringify({
-                userId:"userId",
+                userId:userId,
                 questionId:1,
                 shownOrder: shownOrder,
                 order:order,
@@ -122,6 +119,3 @@ document.getElementById("button").addEventListener("click", () => {
         console.error(error);
     })
 });
-
-
-shuffleList();
