@@ -7,7 +7,9 @@ body{
 
 .centering_parent {
     text-align:  center;
+    width: 90%;
 }
+
 h2{
     text-align:center;
     width: 90%;
