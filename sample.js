@@ -101,12 +101,14 @@ document.getElementById("button").addEventListener("click", () => {
     
     .then(data => {
         status.textContent = "ご回答ありがとうございました。";
+        status.style.color = "#007BFF";
         button.textContent = "送信済み";
         button.disabled = true;
     })
     
     .catch(error => {
         status.textContent = "送信に失敗しました。もう一度お試しください。";
+        status.style.color = "#28A745";
         button.disabled = false;
         console.error(error);
     })
