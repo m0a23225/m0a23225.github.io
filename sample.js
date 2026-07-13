@@ -69,3 +69,6 @@ document.getElementById("button").addEventListener("click", () => {
         console.error(error);
     })
 });
+
+
+shuffleList();
