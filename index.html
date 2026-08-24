@@ -1,60 +1,275 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>センスが良いと感じる短文についてのアンケート調査</title>
-        <meta name = "description" content = "卒研アンケート">
-        <link rel = "stylesheet" href = "sample.css">
-    </head>
-    <body>
-        <section>
-            <div class="centering_parent">
-                <span class="centering_item">
-                    <h1>
-                        センスが良いと感じる短文についてのアンケート調査
-                    </h1>
-                    <p>
-                        ご協力ありがとうございます。
-                    </p>
-                    <p>
-                        本アンケートは、<b>人がセンスが良いと感じる短文の共通点、<br>及び相違点を探すための調査</b>です。
-                    </p>
-                    <p>
-                        多くの人がセンスが良いと感じる短文を選定すること、 またそれらは年齢や性別、
-                        <br>文字に触れる頻度で違いがあるのかについて知ることを目的としています。
-                    </p>
-                    
-                    <p>
-                        ここで取り扱う短文は、
-                        <br><b>「日本語(カタカナ含む)で構成された約30文字以下の文」</b>
-                        <br>を指すこととします。
-                    </p>
-                    <p> 
-                        また、回答していただいたデータは卒業研究のために利用するものとし、<br>個人が特定される形で利用することはありません。
-                    </p>
-                    <p>
-                        所要時間は5分程度を想定しています。
-                    </p>
+<head>
+    <meta charset="UTF-8">
 
-        <h2>　</h2>
-        <h2>あなたの好みの順に短文を並び替えてください</h2>
-        <p>ドラッグアンドドロップで短文の順序を変更できます。</p>
-        <p><b>上部の短文が一番良いと感じた</b>もの、<br><b>下部の短文が一番良いと感じなかった</b>もの、となります。</p>
+    <title>センスが良いと感じる短文についてのアンケート調査</title>
 
-                </span>
+    <meta name="description" content="卒研アンケート">
+
+    <link rel="stylesheet" href="sample.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         ① 説明・事前質問画面
+    ========================== -->
+
+    <section id="profile-screen">
+
+        <div class="centering_parent">
+
+            <div class="centering_item">
+
+                <h1>
+                    センスが良いと感じる短文についてのアンケート調査
+                </h1>
+
+                <p>
+                    ご協力ありがとうございます。
+                </p>
+
+                <p>
+                    本アンケートは、
+                    <b>人がセンスが良いと感じる短文の共通点、<br>
+                    及び相違点を探すための調査</b>です。
+                </p>
+
+                <p>
+                    多くの人がセンスが良いと感じる短文を選定すること、
+                    またそれらは年齢や性別、
+                    <br>
+                    文字に触れる頻度で違いがあるのかについて知ることを目的としています。
+                </p>
+
+                <p>
+                    ここで取り扱う短文は、
+                    <br>
+                    <b>「日本語(カタカナ含む)で構成された約30文字以下の文」</b>
+                    <br>
+                    を指すこととします。
+                </p>
+
+                <p>
+                    また、回答していただいたデータは卒業研究のために利用するものとし、
+                    <br>
+                    個人が特定される形で利用することはありません。
+                </p>
+
+                <p>
+                    所要時間は5分程度を想定しています。
+                </p>
+
+
+                <!-- =========================
+                     事前質問
+                ========================== -->
+
+                <h2>あなたについて教えてください</h2>
+
+
+                <!-- 年齢 -->
+
+                <p>
+                    <b>年齢</b>
+                </p>
+
+                <input
+                    type="number"
+                    id="age"
+                    min="1"
+                    max="120"
+                    placeholder="年齢を入力してください"
+                >
+
+
+                <!-- 性別 -->
+
+                <p>
+                    <b>性別</b>
+                </p>
+
+                <select id="gender">
+
+                    <option value="">
+                        選択してください
+                    </option>
+
+                    <option value="男性">
+                        男性
+                    </option>
+
+                    <option value="女性">
+                        女性
+                    </option>
+
+                    <option value="その他">
+                        その他
+                    </option>
+
+                    <option value="回答しない">
+                        回答しない
+                    </option>
+
+                </select>
+
+
+                <!-- 文章ジャンル -->
+
+                <p>
+                    <b>普段よく読む文章のジャンルを教えてください</b>
+                </p>
+
+                <select id="genre">
+
+                    <option value="">
+                        選択してください
+                    </option>
+
+                    <option value="小説">
+                        小説
+                    </option>
+
+                    <option value="ニュース">
+                        ニュース
+                    </option>
+
+                    <option value="エッセイ">
+                        エッセイ
+                    </option>
+
+                    <option value="漫画">
+                        漫画
+                    </option>
+
+                    <option value="SNS">
+                        SNS
+                    </option>
+
+                    <option value="広告・キャッチコピー">
+                        広告・キャッチコピー
+                    </option>
+
+                    <option value="その他">
+                        その他
+                    </option>
+
+                </select>
+
+
+                <!-- 文章を読む頻度 -->
+
+                <p>
+                    <b>文章を読む頻度を教えてください</b>
+                </p>
+
+                <select id="frequency">
+
+                    <option value="">
+                        選択してください
+                    </option>
+
+                    <option value="毎日">
+                        毎日
+                    </option>
+
+                    <option value="週に数回">
+                        週に数回
+                    </option>
+
+                    <option value="週1回程度">
+                        週1回程度
+                    </option>
+
+                    <option value="月に数回">
+                        月に数回
+                    </option>
+
+                    <option value="ほとんど読まない">
+                        ほとんど読まない
+                    </option>
+
+                </select>
+
+
+                <!-- 次へボタン -->
+
+                <p>
+                    <button id="nextButton">
+                        次へ
+                    </button>
+                </p>
+
             </div>
-        </section>
-        
-    <ul id="list"></ul>
 
-    <button id="button">送信する</button>
-    <p id="status"></p>
-        
-    <!-- SortableJSを読み込む -->
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ② 短文並び替え画面
+    ========================== -->
+
+    <section id="survey-screen" style="display: none;">
+
+        <div class="centering_parent">
+
+            <div class="centering_item">
+
+                <h1>
+                    短文並び替え
+                </h1>
+
+                <h2>
+                    あなたの好みの順に短文を並び替えてください
+                </h2>
+
+                <p>
+                    ドラッグアンドドロップで短文の順序を変更できます。
+                </p>
+
+                <p>
+                    <b>上部の短文が一番良いと感じた</b>もの、
+                    <br>
+                    <b>下部の短文が一番良いと感じなかった</b>もの、
+                    となります。
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- 短文一覧 -->
+
+        <ul id="list"></ul>
+
+
+        <!-- 送信ボタン -->
+
+        <button id="button">
+            送信する
+        </button>
+
+        <p id="status"></p>
+
+    </section>
+
+
+
+    <!-- =========================
+         JavaScript
+    ========================== -->
+
+    <!-- SortableJS -->
+
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 
-    <!-- 自分で作るJavaScript -->
+    <!-- 自分で作ったJavaScript -->
+
     <script src="sample.js"></script>
-    
-    </body>
+</body>
 </html>
