@@ -29,6 +29,11 @@ const sentences = [
     "短文20"
 ];
 
+let age = "";
+let gender = "";
+let genre = "";
+let frequency = "";
+
 // ページを開いた時刻を記録
 const startTime = Date.now();
 
@@ -106,6 +111,12 @@ document.getElementById("button").addEventListener("click", () => {
             body: JSON.stringify({
                 userId:userId,
                 questionId:1,
+                
+                age: age,
+                gender: gender,
+                genre: genre,
+                frequency: frequency,
+
                 order:order,
                 elapsedTime: elapsedTime
             })
@@ -129,10 +140,10 @@ document.getElementById("button").addEventListener("click", () => {
 
 document.getElementById("nextButton").addEventListener("click", () => {
 
-    const age = document.getElementById("age").value;
-    const gender = document.getElementById("gender").value;
-    const genre = document.getElementById("genre").value;
-    const frequency = document.getElementById("frequency").value;
+    age = document.getElementById("age").value;
+    gender = document.getElementById("gender").value;
+    genre = document.getElementById("genre").value;
+    frequency = document.getElementById("frequency").value;
 
     console.log("年齢:", age);
     console.log("性別:", gender);
