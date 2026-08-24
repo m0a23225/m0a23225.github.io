@@ -130,6 +130,18 @@ document.getElementById("button").addEventListener("click", () => {
 // 「次へ」ボタンが押されたとき
 document.getElementById("nextButton").addEventListener("click", () => {
 
+    // 事前質問の回答を取得
+    const age = document.getElementById("age").value;
+    const gender = document.getElementById("gender").value;
+    const genre = document.getElementById("genre").value;
+    const frequency = document.getElementById("frequency").value;
+
+    // コンソールで確認
+    console.log("年齢:", age);
+    console.log("性別:", gender);
+    console.log("文章ジャンル:", genre);
+    console.log("読む頻度:", frequency);
+
     // 事前質問画面を非表示
     document.getElementById("profile-screen").style.display = "none";
 
