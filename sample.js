@@ -126,3 +126,14 @@ document.getElementById("button").addEventListener("click", () => {
         console.error(error);
     })
 });
+
+// 「次へ」ボタンが押されたとき
+document.getElementById("nextButton").addEventListener("click", () => {
+
+    // 事前質問画面を非表示
+    document.getElementById("profile-screen").style.display = "none";
+
+    // 短文並び替え画面を表示
+    document.getElementById("survey-screen").style.display = "block";
+
+});
