@@ -1,11 +1,3 @@
-document.getElementById("nextButton").addEventListener("click", () => {
-
-    document.getElementById("profile-screen").style.display = "none";
-
-    document.getElementById("survey-screen").style.display = "block";
-
-});
-
 const sentences = [
     "短文1",
     "短文2",
