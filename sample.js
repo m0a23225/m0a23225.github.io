@@ -140,16 +140,43 @@ document.getElementById("button").addEventListener("click", () => {
 
 document.getElementById("nextButton").addEventListener("click", () => {
 
+    // 事前質問の回答を取得
     age = document.getElementById("age").value;
     gender = document.getElementById("gender").value;
     genre = document.getElementById("genre").value;
     frequency = document.getElementById("frequency").value;
 
+
+    // 未回答項目を確認
+    if (age === "") {
+        alert("年齢を選択してください。");
+        return;
+    }
+
+    if (gender === "") {
+        alert("性別を選択してください。");
+        return;
+    }
+
+    if (genre === "") {
+        alert("普段読む文章のジャンルを選択してください。");
+        return;
+    }
+
+    if (frequency === "") {
+        alert("文章を読む頻度を選択してください。");
+        return;
+    }
+
+
+    // 回答内容を確認
     console.log("年齢:", age);
     console.log("性別:", gender);
     console.log("文章ジャンル:", genre);
     console.log("読む頻度:", frequency);
 
+
+    // すべて回答されていたら短文画面へ
     document.getElementById("profile-screen").style.display = "none";
     document.getElementById("survey-screen").style.display = "block";
 
