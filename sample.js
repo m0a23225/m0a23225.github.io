@@ -1,4 +1,20 @@
-const sentences = [
+// ==============================
+// 事前質問の回答
+// ==============================
+
+let age = "";
+let gender = "";
+let genre = "";
+let frequency = "";
+
+
+// ==============================
+// 問題データ
+// ==============================
+
+const questions = [
+
+    // 問題1
     [
         "短文1",
         "短文2",
@@ -21,6 +37,8 @@ const sentences = [
         "短文19",
         "短文20"
     ],
+
+    // 問題2
     [
         "短文21",
         "短文22",
@@ -42,96 +60,72 @@ const sentences = [
         "短文38",
         "短文39",
         "短文40"
-    ],
-    [
-        "短文41",
-        "短文42",
-        "短文43",
-        "短文44",
-        "短文45",
-        "短文46",
-        "短文47",
-        "短文48",
-        "短文49",
-        "短文50",
-        "短文51",
-        "短文52",
-        "短文53",
-        "短文54",
-        "短文55",
-        "短文56",
-        "短文57",
-        "短文58",
-        "短文59",
-        "短文60"
-    ],
-    [
-        "短文61",
-        "短文62",
-        "短文63",
-        "短文64",
-        "短文65",
-        "短文66",
-        "短文67",
-        "短文68",
-        "短文69",
-        "短文70",
-        "短文71",
-        "短文72",
-        "短文73",
-        "短文74",
-        "短文75",
-        "短文76",
-        "短文77",
-        "短文78",
-        "短文79",
-        "短文80"
-    ],
-    [
-        "短文81",
-        "短文82",
-        "短文83",
-        "短文84",
-        "短文85",
-        "短文86",
-        "短文87",
-        "短文88",
-        "短文89",
-        "短文90",
-        "短文91",
-        "短文92",
-        "短文93",
-        "短文94",
-        "短文95",
-        "短文96",
-        "短文97",
-        "短文98",
-        "短文99",
-        "短文100"
-    ],
+    ]
+
 ];
 
-let age = "";
-let gender = "";
-let genre = "";
-let frequency = "";
 
-// ページを開いた時刻を記録
+// ==============================
+// 現在の問題番号
+// ==============================
+
+let currentQuestion = 0;
+
+
+// ==============================
+// 各問題の回答を保存
+// ==============================
+
+const answers = [];
+
+
+// ==============================
+// ページを開いた時刻
+// ==============================
+
 const startTime = Date.now();
 
-// 送信ボタン関連
-const button = document.getElementById("button");
-const status = document.getElementById("status");
 
-// 回答者IDを取得（なければ新しく作る）
+// 問題ごとの開始時刻
+let questionStartTime = Date.now();
+
+
+// ==============================
+// 回答者ID
+// ==============================
+
 let userId = localStorage.getItem("userId");
 
 if (!userId) {
+
     userId = crypto.randomUUID();
+
     localStorage.setItem("userId", userId);
+
 }
 
-console.log(userId);
+console.log("回答者ID:", userId);
+
+
+// ==============================
+// HTML要素
+// ==============================
+
+const list = document.getElementById("list");
+
+const button = document.getElementById("button");
+
+const status = document.getElementById("status");
+
+const questionTitle = document.getElementById("questionTitle");
+
+const nextQuestionButton =
+    document.getElementById("nextQuestionButton");
+
+
+// ==============================
+// 配列をシャッフル
+// ==============================
 
 function shuffle(array) {
 
@@ -139,127 +133,364 @@ function shuffle(array) {
 
         const j = Math.floor(Math.random() * (i + 1));
 
-        [array[i], array[j]] = [array[j], array[i]];
+        [array[i], array[j]] =
+        [array[j], array[i]];
+
     }
 
     return array;
+
 }
 
-const list = document.getElementById("list");
 
-shuffle(sentences);
+// ==============================
+// 問題を表示する関数
+// ==============================
 
-sentences.forEach(sentence => {
+function showQuestion(questionNumber) {
 
-    const li = document.createElement("li");
+    // 現在の問題を取得
+    const sentences =
+        [...questions[questionNumber]];
 
-    li.textContent = sentence;
 
-    list.appendChild(li);
+    // ランダムに並べる
+    shuffle(sentences);
 
-});
 
-// 並び替え機能を追加
+    // 既存の短文を削除
+    list.innerHTML = "";
+
+
+    // 短文を表示
+    sentences.forEach(sentence => {
+
+        const li = document.createElement("li");
+
+        li.textContent = sentence;
+
+        list.appendChild(li);
+
+    });
+
+
+    // 問題番号を表示
+    questionTitle.textContent =
+        "問題" + (questionNumber + 1);
+
+
+    // 問題開始時刻を記録
+    questionStartTime = Date.now();
+
+}
+
+
+// ==============================
+// SortableJS
+// ==============================
+
 new Sortable(list, {
+
     animation: 150
+
 });
 
-// ボタンが押されたら現在の順番を表示
-document.getElementById("button").addEventListener("click", () => {
-    
-    const elapsedTime = Date.now() - startTime;
-    const order = [...document.querySelectorAll("#list li")]
-        .map(item => item.textContent);
-    
-    console.log(order);
-    
-    const confirmed = confirm(
-        "こちらは確認画面です。\n" +
-        "まだ送信は完了していません！\n\n" +
-        "【現在の並び順】\n" +
-        order.join("\n")
-    );
-    
-    if (!confirmed) {
-        return;
-    }
-    
-    button.disabled = true;
-    status.textContent = "送信中…";
 
-    fetch("https://script.google.com/macros/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec", 
+// ==============================
+// 最初の問題を表示
+// ==============================
+
+showQuestion(0);
+
+
+// ==============================
+// 「次へ」ボタン
+// ==============================
+
+nextQuestionButton.addEventListener("click", () => {
+
+
+    // 現在の並び順を取得
+    const order =
+        [...document.querySelectorAll("#list li")]
+        .map(item => item.textContent);
+
+
+    // この問題にかかった時間
+    const questionElapsedTime =
+        Date.now() - questionStartTime;
+
+
+    // 回答を保存
+    answers.push({
+
+        questionId: currentQuestion + 1,
+
+        order: order,
+
+        elapsedTime: questionElapsedTime
+
+    });
+
+
+    console.log(
+        "問題" + (currentQuestion + 1) + "の回答:",
+        order
+    );
+
+
+    // 次の問題へ
+    currentQuestion++;
+
+
+    // まだ問題が残っている場合
+    if (currentQuestion < questions.length) {
+
+
+        showQuestion(currentQuestion);
+
+
+        // 最後の問題ではないので「次の問題へ」
+        nextQuestionButton.textContent =
+            "次の問題へ";
+
+
+    }
+
+
+    // すべての問題が終了した場合
+    else {
+
+
+        // 次へボタンを非表示
+        nextQuestionButton.style.display =
+            "none";
+
+
+        // 送信ボタンを表示
+        button.style.display =
+            "block";
+
+
+        questionTitle.textContent =
+            "すべての問題が終了しました";
+
+
+        console.log(
+            "すべての回答:",
+            answers
+        );
+
+    }
+
+});
+
+
+// ==============================
+// 「送信する」ボタン
+// ==============================
+
+button.addEventListener("click", () => {
+
+
+    // アンケート全体の回答時間
+    const elapsedTime =
+        Date.now() - startTime;
+
+
+    // 確認用の文章
+    let confirmationText =
+        "こちらは確認画面です。\n" +
+        "まだ送信は完了していません！\n\n";
+
+
+    answers.forEach(answer => {
+
+        confirmationText +=
+            "【問題" +
+            answer.questionId +
+            "】\n";
+
+        confirmationText +=
+            answer.order.join("\n");
+
+        confirmationText += "\n\n";
+
+    });
+
+
+    // 確認画面
+    const confirmed =
+        confirm(confirmationText);
+
+
+    // キャンセルされた場合
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    // ボタンを無効化
+    button.disabled = true;
+
+    status.textContent =
+        "送信中…";
+
+
+    // Google Apps Scriptへ送信
+    fetch(
+        "https://script.google.com/macros/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec",
         {
+
             method: "POST",
+
             body: JSON.stringify({
-                userId:userId,
-                questionId:1,
-                
+
+                userId: userId,
+
+                questionId: "multiple",
+
                 age: age,
+
                 gender: gender,
+
                 genre: genre,
+
                 frequency: frequency,
 
-                order:order,
+                answers: answers,
+
                 elapsedTime: elapsedTime
+
             })
-        })
-    .then(response => response.json())
-    
+
+        }
+    )
+
+
+    .then(response =>
+        response.json()
+    )
+
+
     .then(data => {
-        status.textContent = "ご回答ありがとうございました。";
-        status.style.color = "#007BFF";
-        button.textContent = "送信済み";
+
+        status.textContent =
+            "ご回答ありがとうございました。";
+
+        button.textContent =
+            "送信済み";
+
         button.disabled = true;
+
     })
-    
+
+
     .catch(error => {
-        status.textContent = "送信に失敗しました。もう一度お試しください。";
-        status.style.color = "#28A745";
+
+        status.textContent =
+            "送信に失敗しました。もう一度お試しください。";
+
         button.disabled = false;
+
         console.error(error);
-    })
+
+    });
+
 });
 
-document.getElementById("nextButton").addEventListener("click", () => {
+
+// ==============================
+// 「次へ」ボタン
+// ==============================
+
+document
+.getElementById("nextButton")
+.addEventListener("click", () => {
+
 
     // 事前質問の回答を取得
-    age = document.getElementById("age").value;
-    gender = document.getElementById("gender").value;
-    genre = document.getElementById("genre").value;
-    frequency = document.getElementById("frequency").value;
+
+    age =
+        document.getElementById("age").value;
+
+    gender =
+        document.getElementById("gender").value;
+
+    genre =
+        document.getElementById("genre").value;
+
+    frequency =
+        document.getElementById("frequency").value;
 
 
-    // 未回答項目を確認
+    // 未回答チェック
+
     if (age === "") {
+
         alert("年齢を選択してください。");
+
         return;
+
     }
+
 
     if (gender === "") {
+
         alert("性別を選択してください。");
+
         return;
+
     }
+
 
     if (genre === "") {
-        alert("普段読む文章のジャンルを選択してください。");
+
+        alert(
+            "普段読む文章のジャンルを選択してください。"
+        );
+
         return;
+
     }
 
+
     if (frequency === "") {
-        alert("文章を読む頻度を選択してください。");
+
+        alert(
+            "文章を読む頻度を選択してください。"
+        );
+
         return;
+
     }
 
 
     // 回答内容を確認
+
     console.log("年齢:", age);
+
     console.log("性別:", gender);
+
     console.log("文章ジャンル:", genre);
+
     console.log("読む頻度:", frequency);
 
 
-    // すべて回答されていたら短文画面へ
-    document.getElementById("profile-screen").style.display = "none";
-    document.getElementById("survey-screen").style.display = "block";
+    // 事前質問画面を非表示
+
+    document
+    .getElementById("profile-screen")
+    .style.display = "none";
+
+
+    // 短文画面を表示
+
+    document
+    .getElementById("survey-screen")
+    .style.display = "block";
+
 
 });
