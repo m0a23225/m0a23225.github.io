@@ -50,3 +50,13 @@ button{
     padding:10px 20px;
     font-size:24px;
 }
+
+/* 最初の質問（プルダウン） */
+select {
+    width: 90%;
+    max-width: 400px;
+    height: 48px;
+    font-size: 16px;
+    padding: 0 10px;
+    margin: 8px 0;
+}
