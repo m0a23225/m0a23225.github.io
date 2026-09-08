@@ -456,6 +456,8 @@ document
     .style.display = "block";
     
     // 画面を一番上まで戻す
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100);
 
 });
