@@ -342,8 +342,9 @@ nextQuestionButton.addEventListener("click", () => {
 
     // 画面を一番上まで戻す
     window.scrollTo({
-    top: 0,
-    behavior: "smooth"});
+        top: 0,
+        behavior: "smooth"
+    });
 
     // ==============================
     // 問題5になったら
@@ -453,6 +454,11 @@ document
     document
     .getElementById("survey-screen")
     .style.display = "block";
-
+    
+    // 画面を一番上まで戻す
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 });
