@@ -340,6 +340,10 @@ nextQuestionButton.addEventListener("click", () => {
 
     showQuestion(currentQuestion);
 
+    // 画面を一番上まで戻す
+    window.scrollTo({
+    top: 0,
+    behavior: "smooth"});
 
     // ==============================
     // 問題5になったら
