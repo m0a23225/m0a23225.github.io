@@ -185,30 +185,40 @@ showQuestion(0);
 
 
 // ==============================
-// 「次へ」ボタン
+// 「次の問題へ」ボタン
 // ==============================
 
 nextQuestionButton.addEventListener("click", () => {
 
+    // 現在の並び順を取得
     const order =
         [...document.querySelectorAll("#list li")]
         .map(item => item.textContent);
 
+    // 問題ごとの回答時間
     const questionElapsedTime =
         Date.now() - questionStartTime;
 
 
-    // 問題ごとの確認
-    const message =
-        currentQuestion === questions.length - 1
-        ? "問題" + (currentQuestion + 1) + "の回答を確定しますか？\n\n" +
-        "OKを押すと、すべての問題が終了します。"
-        : "問題" + (currentQuestion + 1) + "の回答を確定しますか？\n\n" +
-        "OKを押すと次の問題に進みます。\n" +
-        "キャンセルを押すと回答を変更できます。";
+    // 確認画面に表示する文章
+    let confirmationText =
+        "【問題" + (currentQuestion + 1) + "の確認】\n\n" +
+        "以下の順番で回答を確定します。\n\n";
 
-const confirmed = confirm(message);
-    // キャンセルした場合は、現在の問題に戻る
+    confirmationText += order.join("\n");
+
+    confirmationText +=
+        "\n\nこの内容でよろしいですか？\n" +
+        "OKを押すと回答を確定します。\n" +
+        "キャンセルを押すと並び替えに戻ります。";
+
+
+    // 確認
+    const confirmed =
+        confirm(confirmationText);
+
+
+    // キャンセルした場合
     if (!confirmed) {
         return;
     }
@@ -221,28 +231,29 @@ const confirmed = confirm(message);
         elapsedTime: questionElapsedTime
     });
 
-    console.log("保存した問題:", currentQuestion + 1);
-    console.log("保存した並び順:", order);
+
+    console.log(
+        "保存した問題:",
+        currentQuestion + 1
+    );
+
+    console.log(
+        "保存した並び順:",
+        order
+    );
 
 
     // 次の問題へ
     currentQuestion++;
 
+
+    // まだ問題がある場合
     if (currentQuestion < questions.length) {
 
         showQuestion(currentQuestion);
 
-    } else {
-
-        // 全問題終了
-        nextQuestionButton.style.display = "none";
-        button.style.display = "block";
-
-        questionTitle.textContent =
-            "すべての問題が終了しました";
-
-        console.log("すべての回答:", answers);
     }
+
 });
 
 // ==============================
