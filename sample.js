@@ -245,60 +245,6 @@ const confirmed = confirm(message);
     }
 });
 
-
-    console.log(
-        "問題" + (currentQuestion + 1) + "の回答:",
-        order
-    );
-
-
-    // 次の問題へ
-    currentQuestion++;
-
-
-    // まだ問題が残っている場合
-    if (currentQuestion < questions.length) {
-
-
-        showQuestion(currentQuestion);
-
-
-        // 最後の問題ではないので「次の問題へ」
-        nextQuestionButton.textContent =
-            "次の問題へ";
-
-
-    }
-
-
-    // すべての問題が終了した場合
-    else {
-
-
-        // 次へボタンを非表示
-        nextQuestionButton.style.display =
-            "none";
-
-
-        // 送信ボタンを表示
-        button.style.display =
-            "block";
-
-
-        questionTitle.textContent =
-            "すべての問題が終了しました";
-
-
-        console.log(
-            "すべての回答:",
-            answers
-        );
-
-    }
-
-});
-
-
 // ==============================
 // 「送信する」ボタン
 // ==============================
