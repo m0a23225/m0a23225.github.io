@@ -199,12 +199,15 @@ nextQuestionButton.addEventListener("click", () => {
 
 
     // 問題ごとの確認
-    const confirmed = confirm(
-        "問題" + (currentQuestion + 1) + "の回答を確定しますか？\n\n" +
+    const message =
+        currentQuestion === questions.length - 1
+        ? "問題" + (currentQuestion + 1) + "の回答を確定しますか？\n\n" +
+        "OKを押すと、すべての問題が終了します。"
+        : "問題" + (currentQuestion + 1) + "の回答を確定しますか？\n\n" +
         "OKを押すと次の問題に進みます。\n" +
-        "キャンセルを押すと回答を変更できます。"
-    );
+        "キャンセルを押すと回答を変更できます。";
 
+const confirmed = confirm(message);
     // キャンセルした場合は、現在の問題に戻る
     if (!confirmed) {
         return;
