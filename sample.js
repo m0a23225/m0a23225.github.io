@@ -185,7 +185,7 @@ showQuestion(0);
 
 
 // ==============================
-// 「次の問題へ」ボタン
+// 「次の問題へ / 送信する」ボタン
 // ==============================
 
 nextQuestionButton.addEventListener("click", () => {
@@ -200,7 +200,10 @@ nextQuestionButton.addEventListener("click", () => {
         Date.now() - questionStartTime;
 
 
-    // 確認画面に表示する文章
+    // ==============================
+    // 問題ごとの確認
+    // ==============================
+
     let confirmationText =
         "【問題" + (currentQuestion + 1) + "の確認】\n\n" +
         "以下の順番で回答を確定します。\n\n";
@@ -213,18 +216,20 @@ nextQuestionButton.addEventListener("click", () => {
         "キャンセルを押すと並び替えに戻ります。";
 
 
-    // 確認
     const confirmed =
         confirm(confirmationText);
 
 
-    // キャンセルした場合
+    // キャンセル
     if (!confirmed) {
         return;
     }
 
 
+    // ==============================
     // 回答を保存
+    // ==============================
+
     answers.push({
         questionId: currentQuestion + 1,
         order: order,
@@ -243,134 +248,115 @@ nextQuestionButton.addEventListener("click", () => {
     );
 
 
-    // 次の問題へ
-    currentQuestion++;
+    // ==============================
+    // 最後の問題か確認
+    // ==============================
+
+    if (currentQuestion === questions.length - 1) {
+
+        // ==========================
+        // 最後の問題
+        // ==========================
+
+        console.log("すべての問題の回答:", answers);
+
+        nextQuestionButton.disabled = true;
+
+        nextQuestionButton.textContent =
+            "送信中…";
 
 
-    // まだ問題がある場合
-    if (currentQuestion < questions.length) {
-
-        showQuestion(currentQuestion);
-
-    }
-
-});
-
-// ==============================
-// 「送信する」ボタン
-// ==============================
-
-button.addEventListener("click", () => {
+        // アンケート全体の回答時間
+        const elapsedTime =
+            Date.now() - startTime;
 
 
-    // アンケート全体の回答時間
-    const elapsedTime =
-        Date.now() - startTime;
+        // ==========================
+        // GASへ送信
+        // ==========================
 
+        fetch(
+            "https://script.google.com/macros/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec",
+            {
 
-    // 確認用の文章
-    let confirmationText =
-        "こちらは確認画面です。\n" +
-        "まだ送信は完了していません！\n\n";
+                method: "POST",
 
+                body: JSON.stringify({
 
-    answers.forEach(answer => {
+                    userId: userId,
 
-        confirmationText +=
-            "【問題" +
-            answer.questionId +
-            "】\n";
+                    questionId: "multiple",
 
-        confirmationText +=
-            answer.order.join("\n");
+                    age: age,
 
-        confirmationText += "\n\n";
+                    gender: gender,
 
-    });
+                    genre: genre,
 
+                    frequency: frequency,
 
-    // 確認画面
-    const confirmed =
-        confirm(confirmationText);
+                    answers: answers,
 
+                    elapsedTime: elapsedTime
 
-    // キャンセルされた場合
-    if (!confirmed) {
+                })
+
+            }
+        )
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+            nextQuestionButton.textContent =
+                "送信済み";
+
+            status.textContent =
+                "ご回答ありがとうございました。";
+
+        })
+
+        .catch(error => {
+
+            nextQuestionButton.disabled = false;
+
+            nextQuestionButton.textContent =
+                "送信する";
+
+            status.textContent =
+                "送信に失敗しました。もう一度お試しください。";
+
+            console.error(error);
+
+        });
+
 
         return;
-
     }
 
 
-    // ボタンを無効化
-    button.disabled = true;
+    // ==============================
+    // まだ問題が残っている場合
+    // ==============================
 
-    status.textContent =
-        "送信中…";
+    currentQuestion++;
 
-
-    // Google Apps Scriptへ送信
-    fetch(
-        "https://script.google.com/macros/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec",
-        {
-
-            method: "POST",
-
-            body: JSON.stringify({
-
-                userId: userId,
-
-                questionId: "multiple",
-
-                age: age,
-
-                gender: gender,
-
-                genre: genre,
-
-                frequency: frequency,
-
-                answers: answers,
-
-                elapsedTime: elapsedTime
-
-            })
-
-        }
-    )
+    showQuestion(currentQuestion);
 
 
-    .then(response =>
-        response.json()
-    )
+    // 問題5になったら
+    // ボタンを「送信する」に変更
 
+    if (currentQuestion === questions.length - 1) {
 
-    .then(data => {
+        nextQuestionButton.textContent =
+            "送信する";
 
-        status.textContent =
-            "ご回答ありがとうございました。";
-
-        button.textContent =
-            "送信済み";
-
-        button.disabled = true;
-
-    })
-
-
-    .catch(error => {
-
-        status.textContent =
-            "送信に失敗しました。もう一度お試しください。";
-
-        button.disabled = false;
-
-        console.error(error);
-
-    });
+    }
 
 });
-
 
 // ==============================
 // 「次へ」ボタン
