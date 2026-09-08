@@ -190,28 +190,57 @@ showQuestion(0);
 
 nextQuestionButton.addEventListener("click", () => {
 
-
-    // 現在の並び順を取得
     const order =
         [...document.querySelectorAll("#list li")]
         .map(item => item.textContent);
 
-
-    // この問題にかかった時間
     const questionElapsedTime =
         Date.now() - questionStartTime;
 
 
+    // 問題ごとの確認
+    const confirmed = confirm(
+        "問題" + (currentQuestion + 1) + "の回答を確定しますか？\n\n" +
+        "OKを押すと次の問題に進みます。\n" +
+        "キャンセルを押すと回答を変更できます。"
+    );
+
+    // キャンセルした場合は、現在の問題に戻る
+    if (!confirmed) {
+        return;
+    }
+
+
     // 回答を保存
     answers.push({
-
         questionId: currentQuestion + 1,
-
         order: order,
-
         elapsedTime: questionElapsedTime
-
     });
+
+    console.log("保存した問題:", currentQuestion + 1);
+    console.log("保存した並び順:", order);
+
+
+    // 次の問題へ
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+
+        showQuestion(currentQuestion);
+
+    } else {
+
+        // 全問題終了
+        nextQuestionButton.style.display = "none";
+        button.style.display = "block";
+
+        questionTitle.textContent =
+            "すべての問題が終了しました";
+
+        console.log("すべての回答:", answers);
+    }
+});
 
 
     console.log(
