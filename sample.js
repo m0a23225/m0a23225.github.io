@@ -183,29 +183,31 @@ new Sortable(list, {
 
 showQuestion(0);
 
-
 // ==============================
 // 「次の問題へ / 送信する」ボタン
 // ==============================
 
 nextQuestionButton.addEventListener("click", () => {
 
+    // 現在の問題番号
+    const questionNumber = currentQuestion + 1;
+
     // 現在の並び順を取得
     const order =
         [...document.querySelectorAll("#list li")]
         .map(item => item.textContent);
 
-    // 問題ごとの回答時間
+    // 現在の問題の回答時間
     const questionElapsedTime =
         Date.now() - questionStartTime;
 
 
     // ==============================
-    // 問題ごとの確認
+    // 確認画面
     // ==============================
 
     let confirmationText =
-        "【問題" + (currentQuestion + 1) + "の確認】\n\n" +
+        "【問題" + questionNumber + "の確認】\n\n" +
         "以下の順番で回答を確定します。\n\n";
 
     confirmationText += order.join("\n");
@@ -216,11 +218,10 @@ nextQuestionButton.addEventListener("click", () => {
         "キャンセルを押すと並び替えに戻ります。";
 
 
-    const confirmed =
-        confirm(confirmationText);
+    const confirmed = confirm(confirmationText);
 
 
-    // キャンセル
+    // キャンセルされた場合
     if (!confirmed) {
         return;
     }
@@ -231,7 +232,7 @@ nextQuestionButton.addEventListener("click", () => {
     // ==============================
 
     answers.push({
-        questionId: currentQuestion + 1,
+        questionId: questionNumber,
         order: order,
         elapsedTime: questionElapsedTime
     });
@@ -239,7 +240,7 @@ nextQuestionButton.addEventListener("click", () => {
 
     console.log(
         "保存した問題:",
-        currentQuestion + 1
+        questionNumber
     );
 
     console.log(
@@ -249,36 +250,31 @@ nextQuestionButton.addEventListener("click", () => {
 
 
     // ==============================
-    // 最後の問題か確認
+    // 問題5の場合
     // ==============================
 
-    if (currentQuestion === questions.length - 1) {
+    if (questionNumber === questions.length) {
 
-        // ==========================
-        // 最後の問題
-        // ==========================
-
-        console.log("すべての問題の回答:", answers);
+        console.log("最後の問題です。送信します。");
+        console.log("すべての回答:", answers);
 
         nextQuestionButton.disabled = true;
+        nextQuestionButton.textContent = "送信中…";
 
-        nextQuestionButton.textContent =
-            "送信中…";
-
-
-        // アンケート全体の回答時間
-        const elapsedTime =
-            Date.now() - startTime;
+        status.textContent = "送信中…";
 
 
         // ==========================
         // GASへ送信
         // ==========================
 
+        const elapsedTime =
+            Date.now() - startTime;
+
+
         fetch(
             "https://script.google.com/macros/s/AKfycbwOQUdTm3o2CgmYjLP9xQEzqxQcPZT3avwh6fnfbInnydIP-iADGV30-OcKa_7tH3FF/exec",
             {
-
                 method: "POST",
 
                 body: JSON.stringify({
@@ -300,13 +296,10 @@ nextQuestionButton.addEventListener("click", () => {
                     elapsedTime: elapsedTime
 
                 })
-
             }
         )
 
-        .then(response =>
-            response.json()
-        )
+        .then(response => response.json())
 
         .then(data => {
 
@@ -320,6 +313,8 @@ nextQuestionButton.addEventListener("click", () => {
 
         .catch(error => {
 
+            console.error(error);
+
             nextQuestionButton.disabled = false;
 
             nextQuestionButton.textContent =
@@ -328,17 +323,17 @@ nextQuestionButton.addEventListener("click", () => {
             status.textContent =
                 "送信に失敗しました。もう一度お試しください。";
 
-            console.error(error);
-
         });
 
 
+        // 問題6へ進まないために終了
         return;
     }
 
 
     // ==============================
-    // まだ問題が残っている場合
+    // 問題5ではない場合
+    // → 次の問題へ
     // ==============================
 
     currentQuestion++;
@@ -346,13 +341,20 @@ nextQuestionButton.addEventListener("click", () => {
     showQuestion(currentQuestion);
 
 
+    // ==============================
     // 問題5になったら
     // ボタンを「送信する」に変更
+    // ==============================
 
     if (currentQuestion === questions.length - 1) {
 
         nextQuestionButton.textContent =
             "送信する";
+
+    } else {
+
+        nextQuestionButton.textContent =
+            "次の問題へ";
 
     }
 
